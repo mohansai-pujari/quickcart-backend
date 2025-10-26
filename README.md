@@ -15,6 +15,7 @@ This project comprises three services: **Order Service**, **Product Service**, a
    * [Product Service](#product-service)
    * [Notification Service](#notification-service)
 5. [Notes](#notes)
+6. [Future Enhancements & Scalability Improvements](#future-enhancements--scalability-improvements)
 
 ---
 

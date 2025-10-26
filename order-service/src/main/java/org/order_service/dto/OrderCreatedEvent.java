@@ -1,5 +1,7 @@
 package org.order_service.dto;
 
+import org.order_service.entity.Orders;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
@@ -29,6 +31,16 @@ public class OrderCreatedEvent implements Serializable {
         this.totalPrice = totalPrice;
         this.customerId = customerId;
         this.createdAt = createdAt;
+    }
+
+    public OrderCreatedEvent(Orders orders){
+        this.orderId = orders.getId();
+        this.productId = orders.getProductId();
+        this.productName = orders.getProductName();
+        this.quantity = orders.getQuantity();
+        this.totalPrice = orders.getTotalPrice();
+        this.customerId = orders.getCustomerId();
+        this.createdAt = orders.getCreatedAt();
     }
 
     public UUID getOrderId() {
@@ -85,5 +97,18 @@ public class OrderCreatedEvent implements Serializable {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderCreatedEvent{" +
+                "orderId=" + orderId +
+                ", productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
+                ", customerId='" + customerId + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

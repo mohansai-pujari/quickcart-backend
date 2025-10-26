@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class OrderService {
@@ -28,7 +26,7 @@ public class OrderService {
 
     public Orders createOrder(OrderRequest request) {
         String url = productServiceUrl + "/" + request.getProductId();
-        var product = restTemplate.getForObject(url, java.util.Map.class);
+        Map product = restTemplate.getForObject(url, Map.class);
 
         if (product == null) {
             throw new RuntimeException("Product not found");
@@ -42,27 +40,11 @@ public class OrderService {
         product.put("stock", stock - request.getQuantity());
         restTemplate.put(productServiceUrl, product);
 
-        Orders order = new Orders();
-        order.setId(UUID.randomUUID());
-        order.setProductId(request.getProductId());
-        order.setProductName((String) product.get("name"));
-        order.setUnitPrice(Double.parseDouble(product.get("price").toString()));
-        order.setQuantity(request.getQuantity());
-        order.setTotalPrice(order.getUnitPrice() * order.getQuantity());
-        order.setCustomerId(request.getCustomerId());
-        order.setCreatedAt(new Date());
+        Orders order = new Orders(product, request);
 
         Orders savedOrder = orderRepository.save(order);
 
-        OrderCreatedEvent event = new OrderCreatedEvent(
-                savedOrder.getId(),
-                savedOrder.getProductId(),
-                savedOrder.getProductName(),
-                savedOrder.getQuantity(),
-                savedOrder.getTotalPrice(),
-                savedOrder.getCustomerId(),
-                savedOrder.getCreatedAt()
-        );
+        OrderCreatedEvent event = new OrderCreatedEvent(savedOrder);
         producer.publishOrderCreated(event);
 
         return savedOrder;

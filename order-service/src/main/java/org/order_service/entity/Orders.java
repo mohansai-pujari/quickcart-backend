@@ -1,9 +1,9 @@
 package org.order_service.entity;
 
 import jakarta.persistence.*;
-import java.time.Instant;
-import java.util.Date;
-import java.util.UUID;
+import org.order_service.dto.OrderRequest;
+
+import java.util.*;
 
 @Entity
 public class Orders {
@@ -20,7 +20,19 @@ public class Orders {
     private String customerId;
     private Date createdAt;
 
-    // Getters and setters
+    public Orders() {
+    }
+
+    public Orders(Map product, OrderRequest request) {
+        this.id = UUID.randomUUID();
+        this.productId = request.getProductId();
+        this.customerId = request.getCustomerId();
+        this.productName = (String) product.get("name");
+        this.quantity = request.getQuantity();
+        this.unitPrice = Double.parseDouble(product.get("price").toString());
+        this.totalPrice = unitPrice * quantity;
+        this.createdAt = new Date(System.currentTimeMillis());
+    }
 
     public UUID getId() {
         return id;

@@ -87,4 +87,17 @@ public class OrderCreatedEvent implements Serializable {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
+
+    @Override
+    public String toString() {
+        return "OrderCreatedEvent{" +
+                "orderId=" + orderId +
+                ", productId=" + productId +
+                ", productName='" + productName + '\'' +
+                ", quantity=" + quantity +
+                ", totalPrice=" + totalPrice +
+                ", customerId='" + customerId + '\'' +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }

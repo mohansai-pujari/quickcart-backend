@@ -17,6 +17,15 @@ public class OrderRequest {
     @NotBlank
     private String customerId;
 
+    public OrderRequest() {
+    }
+
+    public OrderRequest(UUID productId, Integer quantity, String customerId) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.customerId = customerId;
+    }
+
     public UUID getProductId() {
         return productId;
     }

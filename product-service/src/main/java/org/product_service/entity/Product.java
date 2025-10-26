@@ -38,6 +38,17 @@ public class Product {
     public Product() {
     }
 
+    public Product(UUID id, String name, String sku, double price, int stock, boolean activeStatus) {
+        this.id = id;
+        this.name = name;
+        this.sku = sku;
+        this.price = price;
+        this.stock = stock;
+        this.activeStatus = activeStatus;
+        this.createdOn = new Date(System.currentTimeMillis());;
+        this.updatedOn = new Date(System.currentTimeMillis());;
+    }
+
     public void productUpdate(Product productToUpdate) {
         this.name = productToUpdate.getName();
         this.sku = productToUpdate.getSku();
